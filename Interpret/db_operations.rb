@@ -1,7 +1,7 @@
 module DbOperations
 	include Entities
 
-  def DbOperations.check_if_user_exists(name)
+  def DbOperations.user_info(name)
   	name = name.squeeze(' ').lstrip.rstrip.downcase
   	match = {}
     Users.all.each do |user|
@@ -14,6 +14,7 @@ module DbOperations
         return match
       end
     end
+    
     nil
   end
 end

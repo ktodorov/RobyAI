@@ -2,15 +2,19 @@ class Greet
 
   def self.check_user_info()
     puts "What's your name?"
-      user_info = DbOperations.check_if_user_exists(gets)
+      user_info = DbOperations.user_info(gets)
       if user_info == nil
       	puts "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?"
-      	if Recognize.check_answer(gets)
+      	recognized_answer =	Recognize.check_answer(gets)
+      	if recognized_answer
       		puts "\nOkay. "
     	    check_user_info()
-    	  else
+    	  elseif recognized_answer != nil
     	  	puts "As you wish. I hope you come back and talk to me again one day.\nGoodbye!"
     	  	return
+    	  else
+    	  	puts "I'm sorry, could not understand. Try again, please."
+    	  	check_user_info()
       	end
       end
 
