@@ -1,6 +1,4 @@
 module SpecialWords
-  load 'constants.rb'
-
   class MeaninglessWords < Constants
     MeaninglessWords.add_item :please, "please"
     MeaninglessWords.add_item :tell_me, "tell me"
