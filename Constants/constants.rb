@@ -1,6 +1,6 @@
 class Constants
   def Constants.add_item(key,value)
-  	@CONSTANTS ||= {}
+    @CONSTANTS ||= {}
     @CONSTANTS[key] = value
   end
 
