@@ -10,7 +10,7 @@ class Settings
   ActiveRecord::Base.establish_connection(
       :adapter => "sqlserver",
       :host => "HOME-PC",
-      :database => "RobyAI_Prototype",
+      :database => "RobyAI",
       :username => "sa1",
       :password => "sa"
   )
