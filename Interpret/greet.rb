@@ -1,8 +1,9 @@
 class Greet
-
+  extend Entities::Operations
+  
   def self.check_user_info()
     puts "What's your name?"
-      user_info = DbOperations.user_info(gets)
+      user_info = user_info(gets)
       if user_info == nil
       	puts "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?"
       	recognized_answer =	Recognize.check_answer(gets)
@@ -31,7 +32,13 @@ class Greet
     	puts "\nGreat! "
     	check_user_info()
     else
+      result = create_user()
+      if not result
+        puts "Sorry but something broke!"
+        return
+      end
 
+      puts "Great! I remembered you."
     end
   end
 end
