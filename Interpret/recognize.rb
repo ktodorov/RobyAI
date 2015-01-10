@@ -24,6 +24,10 @@ class Recognize
       input.gsub!(" #{ value } ", " ")
     end
 
+    MeaninglessSymbols.values.each do |value|
+      input.gsub!(value, " ")
+    end
+
     input = input.squeeze(' ').lstrip.rstrip.downcase
     
     input
