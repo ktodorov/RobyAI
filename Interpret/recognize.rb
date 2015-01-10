@@ -20,12 +20,12 @@ class Recognize
   def self.remove_meaningless_chars(input)
     AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
 
-    MeaninglessWords.values.each do |value|
-      input.gsub!(" #{ value } ", " ")
-    end
-
     MeaninglessSymbols.values.each do |value|
       input.gsub!(value, " ")
+    end
+    
+    MeaninglessWords.values.each do |value|
+      input.gsub!(" #{ value } ", " ")
     end
 
     input = input.squeeze(' ').lstrip.rstrip.downcase
