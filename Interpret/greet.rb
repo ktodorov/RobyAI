@@ -3,26 +3,26 @@ class Greet
   extend RobyIO
 
   def self.check_user_info()
-    printn "What's your name?"
+    printn "What's your name?\n"
       user_info = user_info(gets)
       if user_info == nil
-        printn "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?"
+        printn "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?\n"
         recognized_answer =	Recognize.check_answer(gets)
         if recognized_answer
           printn "\nOkay. "
           check_user_info()
-        elseif recognized_answer != nil
+        elsif recognized_answer != nil
           printn "As you wish. I hope you come back and talk to me again one day.\nGoodbye!"
           return
         else
           printn "I'm sorry, could not understand. Try again, please."
           check_user_info()
         end
+      elsif
+        printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
+  
+        Listen.start_listening()
       end
-
-      printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
-
-      Listen.start_listening()
   end
   
   # Поздравяваме потребителя и питаме дали вече е регистриран
@@ -34,14 +34,14 @@ class Greet
   end
 
   def self.find_user()
-    printn "Do we know each other?"
+    printn "Do we know each other?\n"
     answer = Recognize.check_answer(gets)
 
     if answer
       printn "\nGreat! "
       check_user_info()
     
-    elseif answer == false
+    elsif answer == false
       result = create_user()
       if not result
         printn "Sorry but something broke!"

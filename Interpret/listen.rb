@@ -1,12 +1,13 @@
 class Listen
+  extend RobyIO
   def Listen.start_listening()
     input = gets
     
     recognized_input = Recognize.recognize_input(input)
-    
+
     if recognized_input == false
       printn "Sorry, could not understand, try again"
-    elseif recognized_input == nil
+    elsif recognized_input == nil
       printn "Goodbye!"
       return
     end
