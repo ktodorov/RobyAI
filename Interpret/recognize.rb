@@ -36,14 +36,14 @@ class Recognize
   def self.check_action(input)
     actions = Actions.new.all
     
-    first_words = input.split(' ')[0..2]
-    first_words.each_with_index do |word, index|
+    input_words = input.split(' ')
+    input_words.each_with_index do |word, index|
       # Тук целта е такава:
       # Ако срещнем дума, която е действие увеличаваме брояча и
       # Важно е, обаче, позицията на която е тази дума
       # Считаме, че ако е най-отпред, значи е "най-важна"
       match = actions.detect { |key, value| key.include? word }
-      actions[match[0]] += (3 / (index + 1)) * 1 if match != nil
+      actions[match[0]] += (input_words.size / (index + 1)) if match != nil
     end
 
     non_zero_actions = actions.select { |key, value| value > 0 }
