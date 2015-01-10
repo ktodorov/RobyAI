@@ -13,16 +13,15 @@ class Recognize
   
   def Recognize.recognize_input(input)
     input = remove_meaningless_chars(input)
-
-    operation = check_action(input)
-
+    
+    check_action(input)
   end
 
   def self.remove_meaningless_chars(input)
     AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
 
     MeaninglessWords.values.each do |value|
-      input.gsub!(value, " ")
+      input.gsub!(" #{ value } ", " ")
     end
 
     input = input.squeeze(' ').lstrip.rstrip.downcase
@@ -31,8 +30,9 @@ class Recognize
   end
   
   def self.check_action(input)
+    actions = Actions.new.all
+    
     first_words = input.split(' ')[0..2]
-    actions = Actions.all
     first_words.each_with_index do |word, index|
       # Тук целта е такава:
       # Ако срещнем дума, която е действие увеличаваме брояча и
@@ -41,15 +41,22 @@ class Recognize
       match = actions.detect { |key, value| key.include? word }
       actions[match[0]] += (3 / (index + 1)) * 1 if match != nil
     end
-    action = actions.max_by{ |key, value| value }[0].first
+
+    non_zero_actions = actions.select { |key, value| value > 0 }
+    action = non_zero_actions.max_by { |key, value| value }[0].first if !non_zero_actions.empty?
     case action
     when "show"
       Show.parse(input)
     when "tell"
-
+      nil
     when "add"
-
+      nil
     when "delete"
+      nil
+    when "exit"
+      return nil
+    else
+      printn "Sorry, I could not understand.", "Try again..."
     end
   end
 
