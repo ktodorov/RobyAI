@@ -20,7 +20,7 @@ class Greet
         end
       elsif
         printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
-  
+        update_login(user_info["username"])
         Listen.start_listening()
       end
   end
@@ -30,7 +30,14 @@ class Greet
   # Ако съществува, продължаваме, а ако не - опитваме пак с ново име
   def Greet.greet()
     printn "Hello, I am Roby.."
-    find_user
+    recent_login = check_recent_logins()
+    if !recent_login
+      find_user()
+    elsif
+      printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }"
+      update_login(recent_login.Username)
+      Listen.start_listening()
+    end
   end
 
   def self.find_user()

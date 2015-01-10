@@ -10,11 +10,25 @@ module Entities
           match["last_name"] = user.LastName
           match["birth_date"] = user.BirthDate
           match["birth_place"] = user.BirthPlace
+          match["last_login"] = user.LastLogin
           return match
         end
       end
     
       nil
+    end
+
+    def update_login(username)
+      user = Users.where(["Username = :username", { username: username }]).first
+      Users.update(user.Id, :LastLogin => Time.now.localtime)
+    end
+
+    def check_recent_logins()
+      last_user = Users.order('LastLogin DESC').first
+      return false if last_user.LastLogin == nil
+      difference_in_minutes = (Time.now.localtime - last_user.LastLogin) / 60
+      return false if difference_in_minutes > 60
+      return last_user
     end
 
     def create_user()
@@ -28,7 +42,8 @@ module Entities
       birth_place = gets
       printn "\nAnd when?"
       birth_date = gets
-      Users.create(Id: Users.all.last.Id + 1, Username: username, FirstName: first_name, LastName: last_name, BirthDate: birth_date, BirthPlace: birth_place)
+      current_time = Time.now.localtime
+      Users.create(Id: Users.all.last.Id + 1, Username: username, FirstName: first_name, LastName: last_name, BirthDate: birth_date, BirthPlace: birth_place, LastLogin: current_time)
     end
   end
 end

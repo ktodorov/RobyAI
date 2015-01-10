@@ -1,6 +1,7 @@
 class Recognize
   include Entities
   include ActionsModule
+  extend RobyIO
 
   def Recognize.check_answer(answer)
     answer = remove_meaningless_chars(answer)
