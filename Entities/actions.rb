@@ -7,46 +7,57 @@ module Entities
     # обединени в масиви според значението им като ключове
     # и при среща на дадена дума, стойността,
     # която е число се увеличава според логиката
-    @actions = {
-      # Показвам
-      ["show",
-       "display",
-       "present",
-       "give"] => 0,
+    def initialize()
+      @actions = {
+        # Показвам
+        ["show",
+         "display",
+         "present",
+         "give"] => 0,
+  
+        # Казвам
+        ["tell",
+         "say"] => 0,
+  
+        # Добавям
+        ["add",
+         "put",
+         "insert"] => 0,
+  
+        # Изтривам
+        ["delete",
+         "erase",
+         "wipe"] => 0,
+  
+        # Излизам
+        ["exit",
+         "goodbye",
+         "bye"] => 0
+      }
+    end
 
-      # Казвам
-      ["tell",
-       "say"] => 0,
-
-      # Добавям
-      ["add",
-       "put",
-       "insert"] => 0,
-
-      # Изтривам
-      ["delete",
-       "erase",
-       "wipe"] => 0
-    }
-
-    def Actions.all()
+    def all()
       @actions
     end
 
-    def Actions.show_words()
+    def show_words()
       @actions.keys[0]
     end
 
-    def Actions.tell_words()
+    def tell_words()
       @actions.keys[1]
     end
 
-    def Actions.add_words()
+    def add_words()
       @actions.keys[2]
     end
 
-    def Actions.delete_words()
+    def delete_words()
       @actions.keys[3]
+    end
+
+    def exit_words()
+      @actions.keys[4]
     end
   end
 end
