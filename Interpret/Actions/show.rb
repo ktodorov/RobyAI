@@ -59,7 +59,9 @@ module ActionsModule
       when "datetime", "timedate"
         printn "It is now #{ display_current_time() }, #{ display_current_date() }"
       else
-        false
+        recognized   = recognize_word_and_display(first_word)
+        recognized ||= recognize_word_and_display(second_word)
+        recognized
       end
     end
 
