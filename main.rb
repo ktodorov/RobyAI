@@ -1,5 +1,5 @@
 # Settings
-load 'settings.rb'
+load 'Settings/local_settings.rb'
 
 # Constants
 load 'Constants/constants.rb'
