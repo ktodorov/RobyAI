@@ -4,7 +4,7 @@ class Recognize
   extend RobyIO
 
   def Recognize.check_answer(answer)
-    answer = remove_meaningless_chars(answer)
+    answer = Recognize.remove_meaningless_chars(answer)
     return true if PositiveWords.values.include? answer
 
     return false if NegativeWords.values.include? answer
@@ -17,13 +17,13 @@ class Recognize
     # При false - не е интерпретиран успешно входа на потребителя
     # При true  - успешно интерпретиран и изпълнена съответната операция
     # При nil   - потребителят е изявил желание да напусне програмата
-    input = remove_meaningless_chars(input)
+    input = Recognize.remove_meaningless_chars(input)
     
     recognized = check_action(input)
     recognized
   end
 
-  def self.remove_meaningless_chars(input)
+  def Recognize.remove_meaningless_chars(input)
     AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
 
     MeaninglessSymbols.values.each do |value|
