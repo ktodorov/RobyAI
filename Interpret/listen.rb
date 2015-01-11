@@ -3,11 +3,11 @@ class Listen
   def Listen.start_listening()
     input = gets
     
-    recognized_input = Recognize.recognize_input(input)
+    recognized = Recognize.recognize_input(input)
 
-    if recognized_input == false
+    if recognized == false
       printn "Sorry, could not understand, try again"
-    elsif recognized_input == nil
+    elsif recognized == nil
       printn "Goodbye!"
       return
     end

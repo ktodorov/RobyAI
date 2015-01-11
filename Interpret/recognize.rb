@@ -13,9 +13,14 @@ class Recognize
   end
   
   def Recognize.recognize_input(input)
+    # От резултата от тази функция зависи как ще продължи програмата:
+    # При false - не е интерпретиран успешно входа на потребителя
+    # При true  - успешно интерпретиран и изпълнена съответната операция
+    # При nil   - потребителят е изявил желание да напусне програмата
     input = remove_meaningless_chars(input)
     
-    check_action(input)
+    recognized = check_action(input)
+    recognized
   end
 
   def self.remove_meaningless_chars(input)
@@ -24,13 +29,12 @@ class Recognize
     MeaninglessSymbols.values.each do |value|
       input.gsub!(value, " ")
     end
-    
-    MeaninglessWords.values.each do |value|
-      input.gsub!(" #{ value } ", " ")
-    end
 
-    input = input.squeeze(' ').lstrip.rstrip.downcase
-    
+    meaningless_words = MeaninglessWords.all.values
+    input_split = input.split(' ')
+
+    input_split.reject! { |word| meaningless_words.include? word }
+    input = input_split.join(' ').squeeze(' ').lstrip.rstrip.downcase
     input
   end
   
@@ -51,7 +55,7 @@ class Recognize
     action = non_zero_actions.max_by { |key, value| value }[0].first if !non_zero_actions.empty?
     case action
     when "show"
-      Show.parse(input)
+      recognized = ShowAction.parse(input)
     when "tell"
       nil
     when "add"
@@ -61,8 +65,18 @@ class Recognize
     when "exit"
       return nil
     else
-      printn "Sorry, I could not understand.", "Try again..."
+      recognized = try_to_recognize(input)
+      printn "Sorry, I could not understand.", "Try again..." if recognized == false
     end
+    recognized
+  end
+
+  def self.try_to_recognize(input)
+    recognized = ShowAction.parse(input)
+    # recognized = TellAction.parse(input) if recognized == false
+    # recognized = AddAction.parse(input) if recognized == false
+    # recognized = DeleteAction.parse(input) if recognized == false
+    recognized
   end
 
 end

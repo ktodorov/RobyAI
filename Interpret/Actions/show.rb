@@ -1,23 +1,26 @@
 module ActionsModule
-  class Show
+  class ShowAction
     include Entities
     extend RobyIO
     
-    def Show.parse(input)
+    def ShowAction.parse(input)
       words = Actions.new.show_words
+      question_words = QuestionWords.all.values
 
       input_words = input.squeeze(' ').rstrip.lstrip.split(' ')
-      input_words.reject! { |word| words.include? word }
+      input_words.reject! { |word| words.include? word or question_words.include? word }
 
       if input_words.empty?
         printn "Sorry, I did not understand", "Try again.."
+        return true # Ако върнем nil, програмата ще мисли, че потребителят иска да излезе
       elsif input_words.size == 1
-        recognize_word_and_display(input_words[0])
+        recognized = recognize_word_and_display(input_words[0])
       elsif input_words.size == 2
-        recognize_two_words_and_display(input_words[0], input_words[1])
+        recognized = recognize_two_words_and_display(input_words[0], input_words[1])
       elsif input_words.size > 2
-        try_to_recognize(input_words)
+        recognized = try_to_recognize(input_words)
       end
+      recognized
     end
 
     def self.recognize_word_and_display(word)
@@ -26,6 +29,8 @@ module ActionsModule
         printn "It is now #{ display_current_time() }"
       when "date"
         printn "Today is #{ display_current_date() }"
+      else
+        false
       end
     end
 
@@ -35,6 +40,8 @@ module ActionsModule
       case recognized_word
       when "datetime", "timedate"
         printn "It is now #{ display_current_time() }, #{ display_current_date() }"
+      else
+        false
       end
     end
 
