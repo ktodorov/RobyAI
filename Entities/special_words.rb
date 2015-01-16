@@ -1,3 +1,6 @@
+require_relative '../Settings/local_settings.rb'
+require_relative '../Constants/constants.rb'
+
 module Entities
   class SpecialWords < ActiveRecord::Base
     self.table_name = "dbo.SpecialWords"

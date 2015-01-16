@@ -1,4 +1,4 @@
-module CommonActions
+module ActionsModule
   def display_current_time()
     time = Time.new
     "#{ time.hour }:#{ time.min }:#{ time.sec }"

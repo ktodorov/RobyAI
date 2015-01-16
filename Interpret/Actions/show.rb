@@ -1,9 +1,13 @@
+require_relative '../../Entities/actions.rb'
+require_relative '../../Entities/special_words.rb'
+require_relative '../../IO/roby_io.rb'
+require_relative 'common.rb'
+
 module ActionsModule
   class ShowAction
     include Entities
-    extend RobyIO
-    extend CommonActions
-    
+    include RobyIO
+
     def ShowAction.parse(input)
       words = Actions.new.show_words
       question_words = QuestionWords.all.values
@@ -20,17 +24,6 @@ module ActionsModule
       end
       recognized
     end
-
-    # Общи функции
-
-    def self.recognize_word(word)
-      if word.starts_with? "time" and word.length < "time".length + 3
-        return "time"
-      elsif word.starts_with? "date" and word.length < "date".length + 3
-        return "date"
-      end
-    end
-
 
     # Специфични функции
 

@@ -1,44 +1,72 @@
-class Recognize
+require_relative 'Actions/add.rb'
+require_relative 'Actions/delete.rb'
+require_relative 'Actions/show.rb'
+require_relative 'Actions/tell.rb'
+require_relative '../Entities/users.rb'
+require_relative '../Entities/special_words.rb'
+require_relative '../Entities/operations.rb'
+require_relative '../Entities/actions.rb'
+require_relative '../IO/roby_io.rb'
+
+module Recognize
   include Entities
   include ActionsModule
-  extend RobyIO
+  include RobyIO
 
-  def Recognize.check_answer(answer)
-    answer = Recognize.remove_meaningless_chars(answer)
+  def check_answer(answer)
+    answer = remove_meaningless_chars(answer)
     return true if PositiveWords.values.include? answer
 
     return false if NegativeWords.values.include? answer
     
     nil
   end
+
+  def recognize_word(word)
+    if word.starts_with? "time" and word.length < "time".length + 3
+      return "time"
+    elsif word.starts_with? "date" and word.length < "date".length + 3
+      return "date"
+    end
+  end
   
-  def Recognize.recognize_input(input)
+  def recognize_input(input)
     # От резултата от тази функция зависи как ще продължи програмата:
     # При false - не е интерпретиран успешно входа на потребителя
     # При true  - успешно интерпретиран и изпълнена съответната операция
     # При nil   - потребителят е изявил желание да напусне програмата
-    input = Recognize.remove_meaningless_chars(input)
+    input = remove_meaningless_chars(input)
     
     recognized = check_action(input)
     recognized
   end
 
-  def Recognize.remove_meaningless_chars(input)
+  def remove_meaningless_chars(input)
     AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
 
     MeaninglessSymbols.values.each do |value|
       input.gsub!(value, " ")
     end
 
-    meaningless_words = MeaninglessWords.all.values
+    # Първо взимаме изразите "без значение" (тези от записите, които съдържат в себе си интервал)
+    # Това се прави с цел да се предотврати евентуално премахване на "me" преди "to me",
+    # защото тогава "to" ще остане в изречението и няма да бъде изчистено
+    meaningless_double_words = MeaninglessWords.all.values.select { |word| word.include? ' ' }
+    meaningless_double_words.each do |word|
+      input.gsub!(word, " ")
+    end
+
+    meaningless_words = MeaninglessWords.all.values.select { |word| !word.include? ' ' }
     input_split = input.split(' ')
 
     input_split.reject! { |word| meaningless_words.include? word }
     input = input_split.join(' ').squeeze(' ').lstrip.rstrip.downcase
     input
   end
+
+  private
   
-  def self.check_action(input)
+  def check_action(input)
     actions = Actions.new.all
     
     input_words = input.split(' ')
@@ -71,7 +99,7 @@ class Recognize
     recognized
   end
 
-  def self.try_to_recognize(input)
+  def try_to_recognize(input)
     recognized = ShowAction.parse(input)
     # recognized = TellAction.parse(input) if recognized == false
     # recognized = AddAction.parse(input) if recognized == false

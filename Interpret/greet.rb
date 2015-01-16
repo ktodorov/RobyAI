@@ -1,13 +1,19 @@
-class Greet
-  extend Entities::Operations
-  extend RobyIO
+require_relative '../Entities/operations.rb'
+require_relative '../IO/roby_io.rb'
+require_relative 'listen.rb'
+
+module Greet
+  include Entities::Operations
+  include RobyIO
+  include Listen
+  include Recognize
 
   def self.check_user_info()
     printn "What's your name?\n"
       user_info = user_info(gets)
       if user_info == nil
         printn "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?\n"
-        recognized_answer =	Recognize.check_answer(gets)
+        recognized_answer =	check_answer(gets)
         if recognized_answer
           printn "\nOkay. "
           check_user_info()
@@ -21,14 +27,14 @@ class Greet
       elsif
         printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
         update_login(user_info["username"])
-        Listen.start_listening()
+        start_listening()
       end
   end
   
   # Поздравяваме потребителя и питаме дали вече е регистриран
   # Ако отговори положително, преглеждаме името, което подаде в базата данни
   # Ако съществува, продължаваме, а ако не - опитваме пак с ново име
-  def Greet.greet()
+  def greet_user()
     printn "Hello, I am Roby.."
     recent_login = check_recent_logins()
     if !recent_login
@@ -36,13 +42,13 @@ class Greet
     elsif
       printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }"
       update_login(recent_login.Username)
-      Listen.start_listening()
+      start_listening()
     end
   end
 
   def self.find_user()
     printn "Do we know each other?\n"
-    answer = Recognize.check_answer(gets)
+    answer = check_answer(gets)
 
     if answer
       printn "\nGreat! "
@@ -55,7 +61,7 @@ class Greet
         return
       end
       printn "Great! I remembered you."
-      Listen.start_listening()
+      start_listening()
     
     else
       printn "Sorry, I did not understand.\nTry again"
