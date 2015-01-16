@@ -31,9 +31,12 @@ module ActionsModule
     def self.recognize_word_and_display(word)
       case recognize_word(word)
       when "time"
-        printn "It is now #{ display_current_time() }"
+        printn "It is now #{ display_time() }"
       when "date"
-        printn "Today is #{ display_current_date() }"
+        printn "Today is #{ display_date() }"
+      when "appointment"
+        printn "Here are your appointments:"
+        printn("#{ appointments() }", color: "blue")
       else
         false
       end
@@ -43,7 +46,7 @@ module ActionsModule
       recognized_word = recognize_word(first_word).to_s + recognize_word(second_word).to_s
       case recognized_word
       when "datetime", "timedate"
-        printn "It is now #{ display_current_time() }, #{ display_current_date() }"
+        printn "It is now #{ display_date_time() }"
       else
         recognized   = recognize_word_and_display(first_word)
         recognized ||= recognize_word_and_display(second_word)

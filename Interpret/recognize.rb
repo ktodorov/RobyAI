@@ -27,6 +27,8 @@ module Recognize
       return "time"
     elsif word.starts_with? "date" and word.length < "date".length + 3
       return "date"
+    elsif word.starts_with? "appointment" and word.length < "appointment".length + 3
+      return "appointment"
     end
   end
   
