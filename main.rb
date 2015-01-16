@@ -14,6 +14,7 @@ load 'Entities/actions.rb'
 load 'IO/roby_io.rb'
 
 # Actions
+load 'Interpret/Actions/common.rb'
 load 'Interpret/Actions/add.rb'
 load 'Interpret/Actions/delete.rb'
 load 'Interpret/Actions/show.rb'

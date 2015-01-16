@@ -2,6 +2,7 @@ module ActionsModule
   class ShowAction
     include Entities
     extend RobyIO
+    extend CommonActions
     
     def ShowAction.parse(input)
       words = Actions.new.show_words
@@ -30,15 +31,6 @@ module ActionsModule
       end
     end
 
-    def self.display_current_time()
-      time = Time.new
-      "#{ time.hour }:#{ time.min }:#{ time.sec }"
-    end
-
-    def self.display_current_date()
-      date = Time.new
-      "#{ date.day }/#{ date.month }/#{ date.year }"
-    end
 
     # Специфични функции
 
