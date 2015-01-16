@@ -35,8 +35,7 @@ module ActionsModule
       when "date"
         printn "Today is #{ display_date() }"
       when "appointment"
-        printn "Here are your appointments:"
-        printn("#{ appointments() }", color: "blue")
+        printn "Here are your appointments:", "#{ appointments() }"
       else
         false
       end

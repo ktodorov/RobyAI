@@ -1,4 +1,5 @@
 require_relative '../../Entities/records.rb'
+require_relative '../../IO/roby_io.rb'
 
 module ActionsModule
   def display_time(time = Time.new)
@@ -18,10 +19,11 @@ module ActionsModule
   	appointments_string = ""
   	user_appointments.each do |appointment|
   		appointments_string += "\n\n" if !appointments_string.empty?
-  		appointments_string += "#{ appointment.Subject }\n"
-  		appointments_string += "from #{ display_date_time(appointment.StartDate) } to #{ display_date_time(appointment.EndDate) }\n" if appointment.StartDate != nil
-  		appointments_string += "at #{ appointment.Address }\n" if appointment.Address != nil
-  		appointments_string += "Description: #{ appointment.Description }" if appointment.Description != nil
+  		appointments_string += "#{ appointment.Subject }\n".blue.bold
+  		appointments_string += "from #{ display_date_time(appointment.StartDate) }\n".blue if appointment.StartDate != nil
+  		appointments_string += "to   #{ display_date_time(appointment.EndDate)   }\n".blue if appointment.StartDate != nil
+  		appointments_string += "at   #{ appointment.Address                      }\n".blue if appointment.Address   != nil
+  		appointments_string += "Description: ".blue.bold + "#{ appointment.Description }".blue if appointment.Description != nil
   	end
 
   	appointments_string
