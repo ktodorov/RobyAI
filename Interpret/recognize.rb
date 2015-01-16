@@ -85,7 +85,7 @@ module Recognize
     when "show"
       recognized = ShowAction.parse(input)
     when "tell"
-      nil
+      recognized = TellAction.parse(input)
     when "add"
       nil
     when "delete"
@@ -101,7 +101,7 @@ module Recognize
 
   def try_to_recognize(input)
     recognized = ShowAction.parse(input)
-    # recognized = TellAction.parse(input) if recognized == false
+    recognized = TellAction.parse(input) if recognized == false
     # recognized = AddAction.parse(input) if recognized == false
     # recognized = DeleteAction.parse(input) if recognized == false
     recognized
