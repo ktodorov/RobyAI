@@ -94,7 +94,6 @@ module Recognize
       return nil
     else
       recognized = try_to_recognize(input)
-      printn "Sorry, I could not understand.", "Try again..." if recognized == false
     end
     recognized
   end

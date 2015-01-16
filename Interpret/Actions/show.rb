@@ -4,7 +4,7 @@ require_relative '../../IO/roby_io.rb'
 require_relative 'common.rb'
 
 module ActionsModule
-  class ShowAction
+  module ShowAction
     include Entities
     include RobyIO
 
@@ -26,7 +26,8 @@ module ActionsModule
     end
 
     # Специфични функции
-
+    private 
+    
     def self.recognize_word_and_display(word)
       case recognize_word(word)
       when "time"
