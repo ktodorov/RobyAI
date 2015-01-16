@@ -44,6 +44,7 @@ module Entities
       birth_date = gets
       current_time = Time.now.localtime
       Users.create(Id: Users.all.last.Id + 1, Username: username, FirstName: first_name, LastName: last_name, BirthDate: birth_date, BirthPlace: birth_place, LastLogin: current_time)
+      $current_user_id = Users.all.last.Id
     end
   end
 end

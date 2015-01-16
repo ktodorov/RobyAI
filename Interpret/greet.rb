@@ -25,6 +25,7 @@ module Greet
           check_user_info()
         end
       elsif
+        $current_user_id = user_info["id"]
         printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
         update_login(user_info["username"])
         start_listening()
@@ -42,6 +43,7 @@ module Greet
     elsif
       printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }"
       update_login(recent_login.Username)
+      $current_user_id = recent_login.Id
       start_listening()
     end
   end
