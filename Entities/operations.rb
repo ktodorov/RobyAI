@@ -46,5 +46,10 @@ module Entities
       Users.create(Id: Users.all.last.Id + 1, Username: username, FirstName: first_name, LastName: last_name, BirthDate: birth_date, BirthPlace: birth_place, LastLogin: current_time)
       $current_user_id = Users.all.last.Id
     end
+
+    def add_appointment(subject, start_date, end_date, description, address, record_type_id)
+      Records.create(Id: Records.all.last.Id + 1, Subject: subject, StartDate: start_date, EndDate: end_date,
+                     Description: description, Address: address, UserId: $current_user_id, RecordTypeId: record_type_id)
+    end
   end
 end

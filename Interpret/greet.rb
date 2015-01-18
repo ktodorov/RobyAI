@@ -8,7 +8,7 @@ module Greet
   include Listen
   include Recognize
 
-  def self.check_user_info()
+  def check_user_info()
     printn "What's your name?\n"
       user_info = user_info(gets)
       if user_info == nil
@@ -48,7 +48,7 @@ module Greet
     end
   end
 
-  def self.find_user()
+  def find_user()
     printn "Do we know each other?\n"
     answer = check_answer(gets)
 

@@ -8,6 +8,9 @@ require_relative '../Entities/operations.rb'
 require_relative '../Entities/actions.rb'
 require_relative '../IO/roby_io.rb'
 
+require 'date'
+require 'time'
+
 module Recognize
   include Entities
   include ActionsModule
@@ -29,6 +32,21 @@ module Recognize
       return "date"
     elsif word.starts_with? "appointment" and word.length < "appointment".length + 3
       return "appointment"
+    end
+  end
+
+  def recognize_date(word)
+    begin
+      Time.parse(word)
+    rescue ArgumentError # Вдига се при невалидна дата ("tommorow", "yesterday" и др.)
+      word = remove_meaningless_chars(word)
+      if word.eql? 'tommorow'
+        return Time.parse (Date.today + 1).to_s
+      elsif word.eql? 'yesterday'
+        return Time.parse (Date.today - 1).to_s
+      else
+        false
+      end
     end
   end
   
@@ -89,7 +107,7 @@ module Recognize
     when "tell"
       recognized = TellAction.parse(input)
     when "add"
-      nil
+      recognized = AddAction.parse(input)
     when "delete"
       nil
     when "exit"
@@ -103,7 +121,7 @@ module Recognize
   def try_to_recognize(input)
     recognized = ShowAction.parse(input)
     recognized = TellAction.parse(input) if recognized == false
-    # recognized = AddAction.parse(input) if recognized == false
+    recognized = AddAction.parse(input) if recognized == false
     # recognized = DeleteAction.parse(input) if recognized == false
     recognized
   end
