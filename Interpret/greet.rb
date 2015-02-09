@@ -10,7 +10,7 @@ module Greet
 
   def check_user_info()
     printn "What's your name?\n"
-      user_info = user_info(gets)
+      user_info = get_user_info(gets)
       if user_info == nil
         printn "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?\n"
         recognized_answer =	check_answer(gets)
@@ -24,7 +24,7 @@ module Greet
           printn "I'm sorry, could not understand. Try again, please."
           check_user_info()
         end
-      elsif
+      else
         $current_user_id = user_info["id"]
         printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
         update_login(user_info["username"])

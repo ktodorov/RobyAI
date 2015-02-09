@@ -1,10 +1,11 @@
 module Entities
   module Operations
-    def user_info(name)
+    def get_user_info(name)
       name = name.squeeze(' ').lstrip.rstrip.downcase
       match = {}
       Users.all.each do |user|
         if user.Username.eql? name or user.FirstName.downcase.eql? name or user.LastName.downcase.eql? name or (user.FirstName + user.LastName).downcase.eql? name
+          match["id"] = user.Id
           match["username"] = user.Username
           match["first_name"] = user.FirstName
           match["last_name"] = user.LastName
