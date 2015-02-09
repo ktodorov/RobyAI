@@ -9,7 +9,7 @@ module ActionsModule
     include RobyIO
 
     def AddAction.parse(input)
-      words = Actions.new.show_words
+      words = Actions.new.add_words
       question_words = QuestionWords.all.values
 
       input_words = input.squeeze(' ').rstrip.lstrip.split(' ')
@@ -41,7 +41,7 @@ module ActionsModule
       recognized_word = recognize_word(first_word).to_s + recognize_word(second_word).to_s
       case recognized_word
       when "datetime", "timedate"
-        printn "It is now #{ display_date_time() }"
+        #printn "It is now #{ display_date_time() }"
       else
         recognized   = recognize_word_and_display(first_word)
         recognized ||= recognize_word_and_display(second_word)

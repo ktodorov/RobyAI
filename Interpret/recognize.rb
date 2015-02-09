@@ -109,7 +109,7 @@ module Recognize
     when "add"
       recognized = AddAction.parse(input)
     when "delete"
-      nil
+      recognized = DeleteAction.parse(input)
     when "exit"
       return nil
     else
@@ -122,7 +122,7 @@ module Recognize
     recognized = ShowAction.parse(input)
     recognized = TellAction.parse(input) if recognized == false
     recognized = AddAction.parse(input) if recognized == false
-    # recognized = DeleteAction.parse(input) if recognized == false
+    recognized = DeleteAction.parse(input) if recognized == false
     recognized
   end
 

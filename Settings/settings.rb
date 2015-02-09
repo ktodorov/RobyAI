@@ -4,6 +4,7 @@ class Settings
   gem 'activerecord-sqlserver-adapter', '~> 4.1.0'
 
   require 'active_record'
+  require 'active_support/core_ext/integer/inflections'
 
   ActiveRecord::Base.pluralize_table_names = false
 
