@@ -3,15 +3,15 @@ require_relative '../../IO/roby_io.rb'
 
 module ActionsModule
   def display_time(time = Time.new)
-    "#{ time.hour }:#{ time.min }:#{ time.sec }"
+    time.strftime "%H:%M"
   end
 
   def display_date(date = Time.new)
-    "#{ date.day }/#{ date.month }/#{ date.year }"
+    date.strftime "%d/%m/%Y"
   end
 
   def display_date_time(datetime = Time.new)
-    "#{ datetime.day }/#{ datetime.month }/#{ datetime.year }, #{ datetime.hour }:#{ datetime.min }:#{ datetime.sec }"
+    datetime.strftime "%d/%m/%Y %H:%M"
   end
 
   def appointments()
