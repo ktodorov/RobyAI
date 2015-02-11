@@ -41,7 +41,7 @@ module ActionsModule
       recognized_word = recognize_word(first_word).to_s + recognize_word(second_word).to_s
       case recognized_word
       when "datetime", "timedate"
-        printn "It is now #{ display_date_time() }"
+        
       else
         recognized   = recognize_word_and_display(first_word)
         recognized ||= recognize_word_and_display(second_word)
@@ -79,7 +79,7 @@ module ActionsModule
       end
 
       if not recognized
-        printn "I did not understand.\nWhat do you want me to show you?"
+        printn "I did not understand.", "What do you want me to show you?"
         input = Recognize.remove_meaningless_chars(gets)
         recognized = DeleteAction.parse(input)
       end
@@ -88,7 +88,7 @@ module ActionsModule
     end
 
     def self.delete_appointment(start_date: Date.civil(2000, 1, 1), end_date: Date.today, address: nil)
-      printn "Okay, here are your appointments:", appointments(), "Which one?"
+      printn "Okay", display_appointments(), "\nWhich one?"
 
       input = gets
       words = Actions.new.delete_words
@@ -101,7 +101,7 @@ module ActionsModule
           printn "Are you sure you want to delete the #{ (index + 1).ordinalize } appointment in the list?"
           if check_answer(gets)
             appointment.destroy
-            printn "Deleted the appointment.", "Anything else?"
+            printn "Deleted the appointment"
           else
             delete_appointment(start_date, end_date, address)
           end

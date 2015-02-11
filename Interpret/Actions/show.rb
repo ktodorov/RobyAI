@@ -32,9 +32,9 @@ module ActionsModule
     def self.recognize_word_and_display(word)
       case recognize_word(word)
       when "time"
-        printn "It is now #{ display_time() }"
+        printn display_time()
       when "date"
-        printn "Today is #{ display_date() }"
+        printn display_date()
       when "appointment"
         printn display_appointments()
       when "joke"

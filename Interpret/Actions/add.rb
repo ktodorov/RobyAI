@@ -133,7 +133,7 @@ module ActionsModule
       if check_answer(input) or input.include? 'save' and input.length <= 16 # "save appointment"
         record_type_id = 1
         add_appointment(subject, start_date, end_date, description, address, record_type_id)
-        printn "I created it! Here are all your appointments:\n#{ appointments }"
+        printn "I created it!\n#{ display_appointments() }"
         return true
       elsif exit_words.any? { |exit_word| input.include? exit_word} and input.length < 10
         return true
