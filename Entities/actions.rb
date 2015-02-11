@@ -30,7 +30,11 @@ module Entities
         # Излизам
         ["exit",
          "goodbye",
-         "bye"] => 0
+         "bye"] => 0,
+
+        # Редактирам
+        ["edit",
+         "change"] => 0
       }
     end
 
@@ -52,6 +56,10 @@ module Entities
 
     def exit_words()
       @actions.keys[3]
+    end
+
+    def edit_words()
+      @actions.keys[4]
     end
   end
 end

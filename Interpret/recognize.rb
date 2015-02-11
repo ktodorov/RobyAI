@@ -1,6 +1,7 @@
 require_relative 'Actions/add.rb'
 require_relative 'Actions/delete.rb'
 require_relative 'Actions/show.rb'
+require_relative 'Actions/edit.rb'
 require_relative '../Entities/users.rb'
 require_relative '../Entities/special_words.rb'
 require_relative '../Entities/phrases.rb'
@@ -153,6 +154,8 @@ module Recognize
       recognized = DeleteAction.parse(input)
     when "exit"
       return nil
+    when "edit"
+      recognized = EditAction.parse(input)
     else
       recognized = try_to_recognize(input)
     end
@@ -163,6 +166,7 @@ module Recognize
     recognized = ShowAction.parse(input)
     recognized = AddAction.parse(input) if recognized == false
     recognized = DeleteAction.parse(input) if recognized == false
+    recognized = EditAction.parse(input) if recognized == false
     recognized
   end
 

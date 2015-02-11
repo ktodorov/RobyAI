@@ -79,7 +79,7 @@ module ActionsModule
       end
 
       if not recognized
-        printn "I did not understand.", "What do you want me to show you?"
+        printn "I did not understand.", "What do you want to delete?"
         input = Recognize.remove_meaningless_chars(gets)
         recognized = DeleteAction.parse(input)
       end
@@ -87,7 +87,7 @@ module ActionsModule
       recognized
     end
 
-    def self.delete_appointment(start_date: Date.civil(2000, 1, 1), end_date: Date.today, address: nil)
+    def self.delete_appointment()
       printn "Okay", display_appointments(), "\nWhich one?"
 
       input = gets
@@ -107,53 +107,6 @@ module ActionsModule
           end
         end
       end
-
-
-      # if !start_date
-      #   printn "When is it?"
-      #   start_date = recognize_date(gets)
-      #   while !start_date
-      #     printn "Sorry, but this is invalid date for me.\nTry again"
-      #     start_date = recognize_date(gets)
-      #   end
-      # end
-      # if end_date == true
-      #   printn "How long is it in hours?"
-      #   value = gets
-      #   end_date = start_date + (value.to_i * 3600) # 3600 = 60х60 (от секунди в часове)
-      # end
-      # if address == true
-      #   printn "Where is it?"
-      #   address = gets
-      #   address = address.rstrip # Махане на новия ред
-      # end
-
-
-      # printn "Okay, here's what I got:"
-
-      # appointment_info =  "#{ subject }\n".blue.bold
-      # appointment_info += "from #{ display_date_time(start_date) }\n".blue
-      # appointment_info += "to   #{ display_date_time(end_date) }\n".blue if end_date
-      # appointment_info += "at   #{ address }\n".blue if address
-      # appointment_info += "Description: ".blue.bold + "#{ description }".blue if description
-      # printn appointment_info
-      # printn "Should I save it?\nYou can add duration, address or description for the event."
-      
-      # exit_words = Actions.new.exit_words
-
-      # input = remove_meaningless_chars(gets)
-      # if check_answer(input) or input.include? 'save' and input.length <= 16 # "save appointment"
-      #   record_type_id = 1
-      #   add_appointment(subject, start_date, end_date, description, address, record_type_id)
-      #   printn "I created it! Here are all your appointments:\n#{ appointments }"
-      #   return true
-      # elsif exit_words.any? { |exit_word| input.include? exit_word} and input.length < 10
-      #   return true
-      # end
-      # address = true if input.include? 'address'
-      # description = true if input.include? 'description'
-      # end_date = true if input.include? 'duration'
-      # create_appointment(subject: subject, start_date: start_date, end_date: end_date, description: description, address: address)
     end
   end
 end
