@@ -9,14 +9,12 @@ module Entities
     # която е число се увеличава според логиката
     def initialize()
       @actions = {
-        # Показвам
+        # Показвам/казвам
         ["show",
          "display",
          "present",
-         "give"] => 0,
-  
-        # Казвам
-        ["tell",
+         "give",
+         "tell",
          "say"] => 0,
   
         # Добавям
@@ -44,20 +42,16 @@ module Entities
       @actions.keys[0]
     end
 
-    def tell_words()
+    def add_words()
       @actions.keys[1]
     end
 
-    def add_words()
+    def delete_words()
       @actions.keys[2]
     end
 
-    def delete_words()
-      @actions.keys[3]
-    end
-
     def exit_words()
-      @actions.keys[4]
+      @actions.keys[3]
     end
   end
 end

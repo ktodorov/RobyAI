@@ -1,7 +1,6 @@
 require_relative 'Actions/add.rb'
 require_relative 'Actions/delete.rb'
 require_relative 'Actions/show.rb'
-require_relative 'Actions/tell.rb'
 require_relative '../Entities/users.rb'
 require_relative '../Entities/special_words.rb'
 require_relative '../Entities/operations.rb'
@@ -104,8 +103,6 @@ module Recognize
     case action
     when "show"
       recognized = ShowAction.parse(input)
-    when "tell"
-      recognized = TellAction.parse(input)
     when "add"
       recognized = AddAction.parse(input)
     when "delete"
@@ -120,7 +117,6 @@ module Recognize
 
   def try_to_recognize(input)
     recognized = ShowAction.parse(input)
-    recognized = TellAction.parse(input) if recognized == false
     recognized = AddAction.parse(input) if recognized == false
     recognized = DeleteAction.parse(input) if recognized == false
     recognized
