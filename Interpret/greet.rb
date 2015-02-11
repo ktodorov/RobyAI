@@ -9,16 +9,16 @@ module Greet
   include Recognize
 
   def check_user_info()
-    printn "What's your name?\n"
+    printn "What's your name?"
       user_info = get_user_info(gets)
       if user_info == nil
-        printn "Sorry, but I didn't found anything for you :(\nDo you want to try typing your name again?\n"
+        printn "Sorry, but I didn't found anything for you :(", "Do you want to try typing your name again?"
         recognized_answer =	check_answer(gets)
         if recognized_answer
-          printn "\nOkay. "
+          printn "Okay. "
           check_user_info()
         elsif recognized_answer != nil
-          printn "As you wish. I hope you come back and talk to me again one day.\nGoodbye!"
+          printn "As you wish. I hope you come back and talk to me again one day.", "Goodbye!"
           return
         else
           printn "I'm sorry, could not understand. Try again, please."
@@ -49,11 +49,11 @@ module Greet
   end
 
   def find_user()
-    printn "Do we know each other?\n"
+    printn "Do we know each other?"
     answer = check_answer(gets)
 
     if answer
-      printn "\nGreat! "
+      printn "Great! "
       check_user_info()
     
     elsif answer == false
@@ -62,11 +62,11 @@ module Greet
         printn "Sorry but something broke!"
         return
       end
-      printn "Great! I remembered you."
+      printn "Great!", "I remembered you."
       start_listening()
     
     else
-      printn "Sorry, I did not understand.\nTry again"
+      printn "Sorry, I did not understand.", "Try again"
       find_user()
     end
   end

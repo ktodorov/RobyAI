@@ -31,6 +31,10 @@ module Entities
     def SpecialWords.MeaninglessSymbols
       SpecialWords.where({ TypeId: 6 })
     end
+
+    def SpecialWords.ContinueWords
+      SpecialWords.where({ TypeId: 7 })
+    end
   end
 
   # Sub-entities of SpecialWords
@@ -91,6 +95,20 @@ module Entities
       else
         MeaninglessSymbols.add_item object.Word, object.Meaning
       end
+    end
+  end
+
+  class ContinueWords < Constants
+    SpecialWords.ContinueWords.each do |object|
+      if object.Meaning == nil
+        ContinueWords.add_item object.Word.to_sym, object.Word
+      else
+        ContinueWords.add_item object.Word, object.Meaning
+      end
+    end
+
+    def self.get_one()
+      ContinueWords.values.sample
     end
   end
 

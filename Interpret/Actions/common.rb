@@ -18,14 +18,13 @@ module ActionsModule
   	user_appointments = Records.Appointments.select { |app| app.UserId == $current_user_id }.sort { |x, y| x.StartDate <=> y.StartDate }
   	appointments_string = ""
   	user_appointments.each do |appointment|
-  		appointments_string += "\n\n" if !appointments_string.empty?
-  		appointments_string += "#{ appointment.Subject }\n".blue.bold
-  		appointments_string += "from #{ display_date_time(appointment.StartDate) }\n".blue if appointment.StartDate != nil
-  		appointments_string += "to   #{ display_date_time(appointment.EndDate)   }\n".blue if appointment.StartDate != nil
-  		appointments_string += "at   #{ appointment.Address                      }\n".blue if appointment.Address   != nil
-  		appointments_string += "Description: ".blue.bold + "#{ appointment.Description }".blue if appointment.Description != nil
+  		appointments_string += "\n" if !appointments_string.empty?
+  		appointments_string += "#{ appointment.Subject }".blue.bold
+  		appointments_string += "\nfrom #{ display_date_time(appointment.StartDate) }".blue if appointment.StartDate != nil
+  		appointments_string += "\nto   #{ display_date_time(appointment.EndDate)   }".blue if appointment.StartDate != nil
+  		appointments_string += "\nat   #{ appointment.Address                      }".blue if appointment.Address   != nil
+  		appointments_string += "\nDescription: ".blue.bold + "#{ appointment.Description }".blue if appointment.Description != nil
   	end
-
   	appointments_string
   end
 end

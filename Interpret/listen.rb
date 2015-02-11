@@ -14,7 +14,7 @@ module Listen
       printn "Goodbye!"
       return
     end
-
+    printn "\n#{ ContinueWords.get_one() }"
     start_listening()
   end
 end
