@@ -14,7 +14,7 @@ module ActionsModule
 
       input_words = input.squeeze(' ').rstrip.lstrip.split(' ')
       input_words.reject! { |word| words.include? word or question_words.include? word }
-      
+
       if input_words.size == 1
         recognized = recognize_word_and_display(input_words[0])
       elsif input_words.size == 2
@@ -37,8 +37,9 @@ module ActionsModule
       when "appointment"
         printn "Here are your appointments:", "#{ appointments() }"
       else
-        false
+        return false
       end
+      true
     end
 
     def self.recognize_two_words_and_display(first_word, second_word)
@@ -49,8 +50,9 @@ module ActionsModule
       else
         recognized   = recognize_word_and_display(first_word)
         recognized ||= recognize_word_and_display(second_word)
-        recognized
+        return recognized
       end
+      true
     end
 
     def self.try_to_recognize(words)
@@ -63,7 +65,7 @@ module ActionsModule
       # Отбелязваме и че сме разпознали нещо за да не изведем съобщение за грешка
       words.each_with_index do |word, index|
         words.drop(index + 1).each do |second_word|
-          if !recognized_words.include? (word + second_word)
+          if !recognized_words.include? word and !recognized_words.include? second_word
             # Ако веднъж сме разпознали нещо, не трябва да променяме променливата при следващо неуспешно разпознаване
             recognized_now = recognize_two_words_and_display(word, second_word)
             recognized ||= recognized_now
