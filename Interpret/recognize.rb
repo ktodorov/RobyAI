@@ -3,6 +3,7 @@ require_relative 'Actions/delete.rb'
 require_relative 'Actions/show.rb'
 require_relative '../Entities/users.rb'
 require_relative '../Entities/special_words.rb'
+require_relative '../Entities/phrases.rb'
 require_relative '../Entities/operations.rb'
 require_relative '../Entities/actions.rb'
 require_relative '../IO/roby_io.rb'
@@ -22,6 +23,21 @@ module Recognize
     return false if NegativeWords.values.include? answer
     
     nil
+  end
+
+  def is_important(input)
+    AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
+
+    input = input.squeeze(' ').lstrip.rstrip.downcase
+    
+    Phrases.Questions.each do |question|
+      if input.starts_with? question.Text
+        printn Phrases.get_answer(question.Id)
+        return
+      end
+    end
+
+    false
   end
 
   def recognize_word(word)

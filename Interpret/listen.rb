@@ -6,6 +6,11 @@ module Listen
   def start_listening()
     input = gets
     
+    if is_important(input)
+      start_listening()
+      return
+    end
+
     recognized = recognize_input(input)
 
     if recognized == false

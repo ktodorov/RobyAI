@@ -14,6 +14,21 @@ module Entities
     def Phrases.Answers
       Phrases.where({ TypeId: 2 })
     end
+
+    def Phrases.Sentences
+      Phrases.where({ TypeId: 3 })
+    end
+
+    def self.get_answer(question_id)
+      answers = {}
+      Phrases.Answers.each do |answer|
+        answers[answer.ParentId] = [] if !answers.has_key? answer.ParentId
+        answers[answer.ParentId] << answer.Text
+      end
+
+      return nil if !answers.has_key? question_id
+      answers[question_id].sample
+    end
   end
 
   # Jokes are sub-entities of Phrases
