@@ -27,13 +27,19 @@ module Recognize
 
   def is_important(input)
     AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
-
     input = input.squeeze(' ').lstrip.rstrip.downcase
     
     Phrases.Questions.each do |question|
       if input.starts_with? question.Text
         printn Phrases.get_answer(question.Id)
-        return
+        return true
+      end
+    end
+
+    Phrases.Sentences.each do |sentence|
+      if input.starts_with? sentence.Text
+        return false if !recognize_sentence(sentence.Text, input)
+        return true
       end
     end
 
@@ -66,6 +72,25 @@ module Recognize
         false
       end
     end
+  end
+
+  def recognize_sentence(sentence, input)
+    input = input.gsub(sentence, "").squeeze(' ').lstrip.rstrip
+    case sentence
+    when "i am not"
+      if input.starts_with? $current_user.Username.downcase or input.starts_with? $current_user.FirstName.downcase or
+         input.starts_with? ($current_user.FirstName + " " + $current_user.LastName).downcase
+        Users.update($current_user.Id, :LastLogin => nil)
+        $current_user = nil
+        printn "Oh, I'm sorry"
+        greet_user(false)
+      else
+        return false
+      end
+    else
+      return false
+    end
+    true
   end
   
   def recognize_input(input)

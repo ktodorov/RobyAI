@@ -95,7 +95,7 @@ module ActionsModule
       input_words = input.squeeze(' ').rstrip.lstrip.split(' ')
       input_words.reject! { |word| words.include? word }
 
-      user_appointments = Records.Appointments.select { |app| app.UserId == $current_user_id }.sort { |x, y| x.StartDate <=> y.StartDate }
+      user_appointments = Records.Appointments.select { |app| app.UserId == $current_user.Id }.sort { |x, y| x.StartDate <=> y.StartDate }
       user_appointments.each_with_index do |appointment, index|
         if (input_words.include? (index + 1).ordinalize and input_words.size > 0 and input_words.size < 4)
           printn "Are you sure you want to delete the #{ (index + 1).ordinalize } appointment in the list?"

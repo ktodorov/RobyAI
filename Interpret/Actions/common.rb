@@ -14,9 +14,10 @@ module ActionsModule
     datetime.strftime "%d/%m/%Y %H:%M"
   end
 
-  def appointments()
-  	user_appointments = Records.Appointments.select { |app| app.UserId == $current_user_id }.sort { |x, y| x.StartDate <=> y.StartDate }
-  	appointments_string = ""
+  def display_appointments()
+  	user_appointments = Records.Appointments.select { |app| app.UserId == $current_user.Id }.sort { |x, y| x.StartDate <=> y.StartDate }
+  	return "It looks like you have no appointments saved" if user_appointments.empty?
+    appointments_string = ""
   	user_appointments.each do |appointment|
   		appointments_string += "\n" if !appointments_string.empty?
   		appointments_string += "#{ appointment.Subject }".blue.bold
@@ -25,6 +26,6 @@ module ActionsModule
   		appointments_string += "\nat   #{ appointment.Address                      }".blue if appointment.Address   != nil
   		appointments_string += "\nDescription: ".blue.bold + "#{ appointment.Description }".blue if appointment.Description != nil
   	end
-  	appointments_string
+  	"Here are your appointments:\n#{ appointments_string }"
   end
 end

@@ -4,15 +4,8 @@ module Entities
       name = name.squeeze(' ').lstrip.rstrip.downcase
       match = {}
       Users.all.each do |user|
-        if user.Username.eql? name or user.FirstName.downcase.eql? name or user.LastName.downcase.eql? name or (user.FirstName + user.LastName).downcase.eql? name
-          match["id"] = user.Id
-          match["username"] = user.Username
-          match["first_name"] = user.FirstName
-          match["last_name"] = user.LastName
-          match["birth_date"] = user.BirthDate
-          match["birth_place"] = user.BirthPlace
-          match["last_login"] = user.LastLogin
-          return match
+        if user.Username.eql? name or user.FirstName.downcase.eql? name or user.LastName.downcase.eql? name or (user.FirstName + " " + user.LastName).downcase.eql? name
+          return user
         end
       end
     
@@ -45,12 +38,12 @@ module Entities
       birth_date = gets
       current_time = Time.now.localtime
       Users.create(Id: Users.all.last.Id + 1, Username: username, FirstName: first_name, LastName: last_name, BirthDate: birth_date, BirthPlace: birth_place, LastLogin: current_time)
-      $current_user_id = Users.all.last.Id
+      $current_user = Users.all.last
     end
 
     def add_appointment(subject, start_date, end_date, description, address, record_type_id)
       Records.create(Id: Records.all.last.Id + 1, Subject: subject, StartDate: start_date, EndDate: end_date,
-                     Description: description, Address: address, UserId: $current_user_id, RecordTypeId: record_type_id)
+                     Description: description, Address: address, UserId: $current_user.Id, RecordTypeId: record_type_id)
     end
   end
 end

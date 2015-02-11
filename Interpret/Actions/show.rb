@@ -36,7 +36,7 @@ module ActionsModule
       when "date"
         printn "Today is #{ display_date() }"
       when "appointment"
-        printn "Here are your appointments:", "#{ appointments() }"
+        printn display_appointments()
       when "joke"
         printn Jokes.get_one
       else
