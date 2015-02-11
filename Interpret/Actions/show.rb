@@ -1,5 +1,6 @@
 require_relative '../../Entities/actions.rb'
 require_relative '../../Entities/special_words.rb'
+require_relative '../../Entities/phrases.rb'
 require_relative '../../IO/roby_io.rb'
 require_relative 'common.rb'
 
@@ -36,6 +37,8 @@ module ActionsModule
         printn "Today is #{ display_date() }"
       when "appointment"
         printn "Here are your appointments:", "#{ appointments() }"
+      when "joke"
+        printn Jokes.get_one
       else
         return false
       end

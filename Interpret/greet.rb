@@ -26,7 +26,7 @@ module Greet
         end
       else
         $current_user_id = user_info["id"]
-        printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }"
+        printn "I found you, #{ user_info["first_name"] } #{ user_info["last_name"] }", "What do you want to do?"
         update_login(user_info["username"])
         start_listening()
       end
@@ -41,7 +41,7 @@ module Greet
     if !recent_login
       find_user()
     elsif
-      printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }"
+      printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }", "What do you want to do?"
       update_login(recent_login.Username)
       $current_user_id = recent_login.Id
       start_listening()

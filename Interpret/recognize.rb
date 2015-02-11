@@ -31,6 +31,9 @@ module Recognize
       return "date"
     elsif word.starts_with? "appointment" and word.length < "appointment".length + 3
       return "appointment"
+    elsif (word.starts_with? "joke" and word.length < "joke".length + 3) or
+          (word.starts_with? "funny" and word.length < "funny".length + 3)
+      return "joke"
     end
   end
 
