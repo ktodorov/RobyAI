@@ -119,10 +119,7 @@ module ActionsModule
         end
       end
 
-      if not recognized
-        printn "I did not understand.\nWhat do you want to add?"
-        return false
-      end
+      return false if !recognized
       recognized
     end
   end

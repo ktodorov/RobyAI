@@ -104,10 +104,7 @@ module ActionsModule
         end
       end
 
-      if not recognized
-        printn "I did not understand.", "What do you want to delete?"
-        return false
-      end
+      return false if !recognized
       recognized
     end
   end

@@ -26,15 +26,15 @@ module Entities
     end
 
     def create_user()
-      printn "\nOkay, let me learn something about you.\n\nWhat's your username?"
+      printn "Okay, let me learn something about you.\n\nWhat's your username?"
       username = gets
-      printn "\nWhat's your full name?"
+      printn "What's your full name?"
       full_name = gets.squeeze(' ').lstrip.rstrip.split(' ')
       first_name = full_name.first
       last_name = full_name[1..-1].join(" ")
-      printn "\nFinally, where are you born?"
+      printn "Finally, where are you born?"
       birth_place = gets
-      printn "\nAnd when?"
+      printn "And when?"
       birth_date = gets
       current_time = Time.now.localtime
       Users.create(Id: Users.all.last.Id + 1, Username: username, FirstName: first_name, LastName: last_name, BirthDate: birth_date, BirthPlace: birth_place, LastLogin: current_time)

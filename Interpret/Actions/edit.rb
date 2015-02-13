@@ -40,7 +40,7 @@ module ActionsModule
         edit_appointment.EndDate = start_date + duration if duration
       end
       
-      edit_appointment.EndDate = get_record_end_date() if end_date
+      edit_appointment.EndDate = get_record_end_date(start_date) if end_date
       edit_appointment.Address = get_record_address() if address
       edit_appointment.Description = get_record_description() if description
 
@@ -124,10 +124,7 @@ module ActionsModule
         end
       end
 
-      if not recognized
-        printn "I did not understand.\nWhat do you want to edit?"
-        return false
-      end
+      return false if !recognized
       recognized
     end
   end
