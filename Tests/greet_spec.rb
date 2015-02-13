@@ -30,16 +30,16 @@ describe Greet do
     end
   end
 
+  after :all do
+    @test_user.LastLogin = "NULL"
+    @test_user.save
+    $current_user = nil
+  end
+
   describe "Recently logged user" do
-    after :all do
-      @test_user.LastLogin = "NULL"
-      @test_user.save
-      $current_user = nil
-    end
-  
     describe "Console output" do
       it "greets user" do
-        expect { @dummy.greet_recent_user(@test_user, false) }.to output("Hello again, #{ @test_user.FirstName } #{ @test_user.LastName }".cyan + "\n").to_stdout
+        expect { @dummy.greet_recent_user(@test_user, false) }.to output(/#{ @test_user.FirstName } #{ @test_user.LastName }/).to_stdout
       end
     end
   
@@ -62,7 +62,7 @@ describe Greet do
       end
 
       it "outputs info to user" do
-        expect { @dummy.log_user(@test_user) }.to output("I found you, #{ @test_user.FirstName } #{ @test_user.LastName }".cyan + "\n").to_stdout
+        expect { @dummy.log_user(@test_user) }.to output(/I found you, #{ @test_user.FirstName } #{ @test_user.LastName }/).to_stdout
       end
     end
   end

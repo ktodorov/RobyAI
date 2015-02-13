@@ -60,8 +60,9 @@ describe Entities do
         @test_user.save     
       end
     end
+
     after :all do 
-      @test_user.LastLogin = nil
+      @test_user.LastLogin = "NULL"
       @test_user.save
     end
 
@@ -83,17 +84,18 @@ describe Entities do
       end
     end
 
-    describe 'update_login' do
-      it "changes user's last login field" do
-        update_login(@test_user.Username)
-        expect(@test_user.LastLogin.strftime "%d/%m/%Y %H:%M").to be > (Time.new - 1)
-        expect(@test_user.LastLogin).to_not be nil
-      end
-    end
+    # describe 'update_login' do
+    #   it "changes user's last login field" do
+    #     update_login(@test_user.Username)
+    #     expect(@test_user.LastLogin.strftime "%d/%m/%Y %H:%M").to be > (Time.new - 1)
+    #     expect(@test_user.LastLogin).to_not be nil
+    #   end
+    # end
 
     describe 'check_recent_logins' do
       it 'returns the user who logged last' do
-        update_login(@test_user.Username)
+        @test_user.LastLogin = Time.new
+        @test_user.save
         expect(check_recent_logins()).to_not be nil
         expect(check_recent_logins()).to eq @test_user
       end
@@ -102,6 +104,69 @@ describe Entities do
         @test_user.save
         expect(check_recent_logins()).to_not eq @test_user
       end
+    end
+  end
+
+  describe Phrases do
+    it "contains any phrases" do
+      expect(Phrases.all).not_to be_empty
+    end
+    it "contains any question-phrases" do
+      expect(Phrases.Questions.all).not_to be_empty
+    end
+    it "contains any answer-phrases" do
+      expect(Phrases.Answers.all).not_to be_empty
+    end
+    it "contains any sentence-phrases" do
+      expect(Phrases.Sentences.all).not_to be_empty
+    end
+    it "contains any joke-phrases" do
+      expect(Jokes.all).not_to be_empty
+    end
+    it "contains any phrases types" do
+      expect(PhrasesType.all).not_to be_empty
+    end
+  end
+
+  describe Records do
+    it "can create new record" do
+      expect(Records.new).to be_a Records
+    end
+  end
+
+  describe SpecialWords do
+    it "contains any special words" do
+      expect(SpecialWords.all).not_to be_empty
+    end
+    it "contains any meaningless words" do
+      expect(MeaninglessWords.all).not_to be_empty
+    end
+    it "contains any abbreviation words" do
+      expect(AbbreviationWords.all).not_to be_empty
+    end
+    it "contains any question words" do
+      expect(QuestionWords.all).not_to be_empty
+    end
+    it "contains any positive words" do
+      expect(PositiveWords.all).not_to be_empty
+    end
+    it "contains any negative words" do
+      expect(NegativeWords.all).not_to be_empty
+    end
+    it "contains any meaningless words" do
+      expect(MeaninglessSymbols.all).not_to be_empty
+    end
+    it "contains any continue words" do
+      expect(ContinueWords.all).not_to be_empty
+    end
+    it "contains special word types" do
+      expect(SpecialWordsType.all).not_to be_empty
+    end
+  end
+
+  describe Users do
+    it "can create new user" do
+      expect(Users.new).to be_a Users
     end
   end
 end

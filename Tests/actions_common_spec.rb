@@ -1,7 +1,4 @@
 require_relative "../Interpret/Actions/common.rb"
-require_relative '../Interpret/recognize.rb'
-
-require 'active_support/core_ext/kernel/reporting'
 
 include ActionsModule
 

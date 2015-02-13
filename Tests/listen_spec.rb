@@ -12,10 +12,8 @@ describe Listen do
     @dummy.extend Recognize
   end
 
-  describe "Leaves" do
-    it "returns nil when goodbye" do
-      allow(@dummy).to receive(:gets) { "Goodbye" }
-      expect(@dummy.start_listening).to eql(nil)
-    end
+  it "leaves when goodbye typed" do
+    allow(@dummy).to receive(:gets) { "Goodbye" }
+    expect(@dummy.start_listening).to eql(nil)
   end
 end
