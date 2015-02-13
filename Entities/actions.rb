@@ -20,7 +20,8 @@ module Entities
         # Добавям
         ["add",
          "put",
-         "insert"] => 0,
+         "insert",
+         "create"] => 0,
   
         # Изтривам
         ["delete",

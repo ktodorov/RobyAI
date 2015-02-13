@@ -41,6 +41,10 @@ module Entities
     def self.get_one()
       @jokes.sample
     end
+
+    def self.all()
+      @jokes
+    end
   end
 
   # The type of the Phrase

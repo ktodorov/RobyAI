@@ -4,10 +4,6 @@ class Constants
     @CONSTANTS[key] = value
   end
 
-  def Constants.const_missing(key)
-    @CONSTANTS[key]
-  end
-
   def Constants.all()
     @CONSTANTS
   end

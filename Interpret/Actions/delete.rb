@@ -25,6 +25,29 @@ module ActionsModule
       recognized
     end
 
+    def self.delete_appointment()
+      printn "Okay", display_appointments(), "\nWhich one?"
+
+      input = gets
+      words = Actions.new.delete_words
+      input_words = input.squeeze(' ').rstrip.lstrip.split(' ')
+      input_words.reject! { |word| words.include? word }
+
+      user_appointments = Records.Appointments.select { |app| app.UserId == $current_user.Id }.sort { |x, y| x.StartDate <=> y.StartDate }
+      user_appointments.each_with_index do |appointment, index|
+        if (input_words.include? (index + 1).ordinalize and input_words.size > 0 and input_words.size < 4)
+          printn "Are you sure you want to delete the #{ (index + 1).ordinalize } appointment in the list?"
+          if check_answer(gets)
+            appointment.destroy
+            printn "The appointment was deleted"
+          else
+            printn "Okay then"
+            return true
+          end
+        end
+      end
+    end
+
     # Специфични функции
     private 
     
@@ -37,16 +60,19 @@ module ActionsModule
       end
     end
 
-    def self.recognize_two_words_and_display(first_word, second_word)
+    def self.recognize_two_words_and_display(first_word, second_word, should_recognize_deeper = true)
       recognized_word = recognize_word(first_word).to_s + recognize_word(second_word).to_s
       case recognized_word
-      when "datetime", "timedate"
-        
+      when "appointment"
+        printn "You can only delete one appointment at a time.", "Let's start with it, shall we?"
+        delete_appointment()
       else
+        return false if !should_recognize_deeper
         recognized   = recognize_word_and_display(first_word)
         recognized ||= recognize_word_and_display(second_word)
-        recognized
+        return recognized
       end
+      true
     end
 
     def self.try_to_recognize(words)
@@ -61,7 +87,7 @@ module ActionsModule
         words.drop(index + 1).each do |second_word|
           if !recognized_words.include? word and !recognized_words.include? second_word
             # Ако веднъж сме разпознали нещо, не трябва да променяме променливата при следващо неуспешно разпознаване
-            recognized_now = recognize_two_words_and_display(word, second_word)
+            recognized_now = recognize_two_words_and_display(word, second_word, false)
             recognized ||= recognized_now
             recognized_words << word << second_word if recognized_now
           end
@@ -80,33 +106,9 @@ module ActionsModule
 
       if not recognized
         printn "I did not understand.", "What do you want to delete?"
-        input = Recognize.remove_meaningless_chars(gets)
-        recognized = DeleteAction.parse(input)
+        return false
       end
-
       recognized
-    end
-
-    def self.delete_appointment()
-      printn "Okay", display_appointments(), "\nWhich one?"
-
-      input = gets
-      words = Actions.new.delete_words
-      input_words = input.squeeze(' ').rstrip.lstrip.split(' ')
-      input_words.reject! { |word| words.include? word }
-
-      user_appointments = Records.Appointments.select { |app| app.UserId == $current_user.Id }.sort { |x, y| x.StartDate <=> y.StartDate }
-      user_appointments.each_with_index do |appointment, index|
-        if (input_words.include? (index + 1).ordinalize and input_words.size > 0 and input_words.size < 4)
-          printn "Are you sure you want to delete the #{ (index + 1).ordinalize } appointment in the list?"
-          if check_answer(gets)
-            appointment.destroy
-            printn "Deleted the appointment"
-          else
-            delete_appointment(start_date, end_date, address)
-          end
-        end
-      end
     end
   end
 end

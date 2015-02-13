@@ -3,8 +3,8 @@ require_relative 'recognize.rb'
 module Listen
   extend RobyIO
 
-  def start_listening()
-    printn "\n#{ ContinueWords.get_one() }"
+  def start_listening(recognized = true)
+    printn "\n#{ ContinueWords.get_one() }" if recognized
     
     input = gets
     
@@ -21,6 +21,6 @@ module Listen
       printn "Goodbye!"
       return
     end
-    start_listening()
+    start_listening(recognized)
   end
 end

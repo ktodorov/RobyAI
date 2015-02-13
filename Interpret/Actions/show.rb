@@ -45,12 +45,13 @@ module ActionsModule
       true
     end
 
-    def self.recognize_two_words_and_display(first_word, second_word)
+    def self.recognize_two_words_and_display(first_word, second_word, should_recognize_deeper = true)
       recognized_word = recognize_word(first_word).to_s + recognize_word(second_word).to_s
       case recognized_word
       when "datetime", "timedate"
         printn display_date_time()
       else
+        return false if !should_recognize_deeper
         recognized   = recognize_word_and_display(first_word)
         recognized ||= recognize_word_and_display(second_word)
         return recognized
@@ -70,7 +71,7 @@ module ActionsModule
         words.drop(index + 1).each do |second_word|
           if !recognized_words.include? word and !recognized_words.include? second_word
             # Ако веднъж сме разпознали нещо, не трябва да променяме променливата при следващо неуспешно разпознаване
-            recognized_now = recognize_two_words_and_display(word, second_word)
+            recognized_now = recognize_two_words_and_display(word, second_word, false)
             recognized ||= recognized_now
             recognized_words << word << second_word if recognized_now
           end
@@ -88,11 +89,9 @@ module ActionsModule
       end
 
       if not recognized
-        printn "I did not understand.\nWhat do you want me to show you?"
-        input = Recognize.remove_meaningless_chars(gets)
-        recognized = ShowAction.parse(input)
+        printn "I did not understand.", "What do you want me to show you?"
+        return false
       end
-
       recognized
     end
   end
