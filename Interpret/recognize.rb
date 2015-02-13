@@ -19,10 +19,9 @@ module Recognize
 
   def check_answer(answer)
     answer = remove_meaningless_chars(answer)
+    
     return true if PositiveWords.values.include? answer
-
     return false if NegativeWords.values.include? answer
-
     nil
   end
 
@@ -99,15 +98,12 @@ module Recognize
     # При false - не е интерпретиран успешно входа на потребителя
     # При true  - успешно интерпретиран и изпълнена съответната операция
     # При nil   - потребителят е изявил желание да напусне програмата
-    input = remove_meaningless_chars(input)
-    
-    recognized = check_action(input)
+    recognized = check_action(remove_meaningless_chars(input))
     recognized
   end
 
   def remove_meaningless_chars(input)
-    AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, constant_value) }
-
+    AbbreviationWords.each { |constant_key, constant_value| input.gsub!(constant_key, " " + constant_value) }
     MeaninglessSymbols.values.each do |value|
       input.gsub!(value, " ")
     end
@@ -119,20 +115,14 @@ module Recognize
     meaningless_double_words.each do |word|
       input.gsub!(word, " ")
     end
-
     meaningless_words = MeaninglessWords.all.values.select { |word| !word.include? ' ' }
-    input_split = input.split(' ')
-
-    input_split.reject! { |word| meaningless_words.include? word }
+    input_split = input.split(' ').reject { |word| meaningless_words.include? word }
     input = input_split.join(' ').squeeze(' ').lstrip.rstrip.downcase
     input
   end
 
-  private
-  
-  def check_action(input)
+  def find_most_called_action(input)
     actions = Actions.new.all
-    
     input_words = input.split(' ')
     input_words.each_with_index do |word, index|
       # Тук целта е такава:
@@ -142,9 +132,15 @@ module Recognize
       match = actions.detect { |key, value| key.include? word }
       actions[match[0]] += (input_words.size / (index + 1)) if match != nil
     end
-
     non_zero_actions = actions.select { |key, value| value > 0 }
     action = non_zero_actions.max_by { |key, value| value }[0].first if !non_zero_actions.empty?
+    action
+  end
+
+  private
+  
+  def check_action(input)
+    action = find_most_called_action(input)
     case action
     when "show"
       recognized = ShowAction.parse(input)
@@ -169,5 +165,4 @@ module Recognize
     recognized = EditAction.parse(input) if recognized == false
     recognized
   end
-
 end

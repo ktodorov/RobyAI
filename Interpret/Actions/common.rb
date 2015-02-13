@@ -3,18 +3,17 @@ require_relative '../../IO/roby_io.rb'
 
 module ActionsModule
   def display_time(time = nil)
-    
     return "It is now #{ Time.new.strftime "%H:%M" }" if !time
     time.strftime "%H:%M"
   end
 
   def display_date(date = nil)
-    "Today is #{ Time.new.strftime "%d/%m/%Y" }" if !date
+    return "Today is #{ Time.new.strftime "%d/%m/%Y" }" if !date
     date.strftime "%d/%m/%Y"
   end
 
   def display_date_time(datetime = nil)
-    "It is now #{ Time.new.strftime "%d/%m/%Y %H:%M" }" if !datetime
+    return "It is now #{ Time.new.strftime "%d/%m/%Y %H:%M" }" if !datetime
     datetime.strftime "%d/%m/%Y %H:%M"
   end
 

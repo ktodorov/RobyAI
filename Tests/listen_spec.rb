@@ -2,9 +2,6 @@ require_relative "../Interpret/listen.rb"
 require_relative '../Settings/local_settings.rb'
 require_relative '../Interpret/recognize.rb'
 
-require 'active_support/core_ext/kernel/reporting'
-require 'rspec/mocks'
-
 class DummyClass
 end
 

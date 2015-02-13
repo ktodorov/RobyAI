@@ -1,7 +1,6 @@
 require_relative "../Interpret/greet.rb"
 require_relative '../Settings/local_settings.rb'
 require_relative '../Entities/users.rb'
-require 'active_support/core_ext/kernel/reporting'
 
 include Entities
 
