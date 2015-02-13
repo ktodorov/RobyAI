@@ -22,7 +22,7 @@ module Recognize
     return true if PositiveWords.values.include? answer
 
     return false if NegativeWords.values.include? answer
-    
+
     nil
   end
 

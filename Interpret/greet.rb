@@ -25,17 +25,21 @@ module Greet
           check_user_info()
         end
       else
-        $current_user = user
-        printn "I found you, #{ user.FirstName } #{ user.LastName }", "What do you want to do?"
-        update_login(user.Username)
+        log_user(user)
         start_listening() if first_start
       end
+  end
+
+  def log_user(user)
+    $current_user = user
+    printn "I found you, #{ user.FirstName } #{ user.LastName }"
+    update_login(user.Username)
   end
   
   # Поздравяваме потребителя и питаме дали вече е регистриран
   # Ако отговори положително, преглеждаме името, което подаде в базата данни
   # Ако съществува, продължаваме, а ако не - опитваме пак с ново име
-  def greet_user(first_start = true)
+  def greet_user(first_start = true, should_listen = true)
     if !first_start
       find_user(first_start)
     else
@@ -44,15 +48,19 @@ module Greet
       if !recent_login
         find_user()
       elsif
-        printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }", "What do you want to do?"
-        update_login(recent_login.Username)
-        $current_user = recent_login
-        start_listening()
+        greet_recent_user(recent_login, should_listen)
       end
     end
   end
 
-  def find_user(first_start = true)
+  def greet_recent_user(recent_login, should_listen = true)
+    printn "Hello again, #{ recent_login.FirstName } #{ recent_login.LastName }"
+    update_login(recent_login.Username)
+    $current_user = recent_login
+    start_listening() if should_listen
+  end
+
+  def find_user(first_start = true, should_listen = true)
     printn "Do we know each other?"
     answer = check_answer(gets)
     if answer
@@ -65,7 +73,7 @@ module Greet
         return
       end
       printn "Great!", "I remembered you."
-      start_listening() 
+      start_listening() if should_listen
     else
       printn "Sorry, I did not understand.", "Try again"
       find_user(first_start)

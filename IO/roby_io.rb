@@ -4,7 +4,6 @@ module RobyIO
     args.each do |arg|
       puts colorize_string(color, arg)
     end
-    # puts "\n"
   end
   
   def colorize_string(color, text)

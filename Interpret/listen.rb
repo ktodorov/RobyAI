@@ -4,6 +4,8 @@ module Listen
   extend RobyIO
 
   def start_listening()
+    printn "\n#{ ContinueWords.get_one() }"
+    
     input = gets
     
     if is_important(input)
@@ -19,7 +21,6 @@ module Listen
       printn "Goodbye!"
       return
     end
-    printn "\n#{ ContinueWords.get_one() }"
     start_listening()
   end
 end
