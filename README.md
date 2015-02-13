@@ -27,4 +27,8 @@ Then create and change the <i>'Settings/local_settings.rb'</i> file, so it can p
 <li>
 Finally, you start the <b>main.rb</b> file, which will load all the required files.
 </li>
+<li>
+If you want to test the code with the given tests, you should install the gem DatabaseCleaner. It helps to clean after some of the tests
+<blockquote>gem install database_cleaner</blockquote>
+</li>
 </ol>

@@ -5,6 +5,7 @@ require_relative "../Entities/records.rb"
 require_relative "../Entities/special_words.rb"
 require_relative "../Entities/users.rb"
 require_relative '../Settings/local_settings.rb'
+require 'database_cleaner'
 
 include Entities
 include Entities::Operations
@@ -48,6 +49,9 @@ describe Entities do
 
   describe Operations do
     before :all do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+
       @test_user = Users.where({ Username: "test_user" }).first
       if !@test_user
         @test_user = Users.new
@@ -61,9 +65,8 @@ describe Entities do
       end
     end
 
-    after :all do 
-      @test_user.LastLogin = "NULL"
-      @test_user.save
+    after :all do
+      DatabaseCleaner.clean
     end
 
     describe 'get_user_info' do

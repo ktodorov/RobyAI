@@ -1,6 +1,7 @@
 require_relative "../Interpret/greet.rb"
 require_relative '../Settings/local_settings.rb'
 require_relative '../Entities/users.rb'
+require 'database_cleaner'
 
 include Entities
 
@@ -13,7 +14,10 @@ end
 
   
 describe Greet do
-	before :all do
+  before :all do
+    DatabaseCleaner.strategy = :transaction # за изчистване на базата данни след тестовете
+    DatabaseCleaner.start
+
     @dummy = DummyClass.new
     @dummy.extend Greet
 
@@ -31,8 +35,7 @@ describe Greet do
   end
 
   after :all do
-    @test_user.LastLogin = "NULL"
-    @test_user.save
+    DatabaseCleaner.clean
     $current_user = nil
   end
 
