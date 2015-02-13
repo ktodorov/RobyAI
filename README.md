@@ -10,7 +10,7 @@ Running configuration
 
 <ol>
 <li>
-You must first install the ActiveRecord gem using the command <blockquote><i>gem install activerecord</i></blockquote>
+You must first install the ActiveRecord gem using the command <blockquote>gem install activerecord</blockquote>
 </li>
 <li>
 After that, you must install the corresponding database adapter for active record. For example, I'm using MS SQL Server so i install the sqlserver adapter using the command <blockquote>gem install activerecord-sqlserver-adapter</blockquote>
